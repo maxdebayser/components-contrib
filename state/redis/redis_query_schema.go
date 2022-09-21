@@ -63,7 +63,10 @@ func parseQuerySchemas(content string) (querySchemas, error) {
 			}
 			alias := fmt.Sprintf("var%d", id)
 			elem.keys[indx.Key] = alias
-			elem.schema = append(elem.schema, fmt.Sprintf("$.data.%s", indx.Key), "AS", alias, indx.Type, "SORTABLE")
+			elem.schema = append(elem.schema, fmt.Sprintf("$.data.%s", indx.Key), "AS", alias, indx.Type)
+			if indx.Type != "TAG" {
+				elem.schema = append(elem.schema, "SORTABLE")
+			}
 		}
 		ret[schema.Name] = elem
 	}
